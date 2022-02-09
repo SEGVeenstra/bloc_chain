@@ -1,6 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:bloc_chain/src/global_event.dart';
 
+/// A special [Bloc] that will receive [GlobalEvents].
+///
+/// A [ChainedBloc] will receive [GlobalEvent]s that have been added
+/// with `BlocChain.add(GlobalEvent)`.
 class ChainedBloc<State> extends Bloc<GlobalEvent, State> {
   static final List<ChainedBloc> _blocs = [];
 
@@ -35,5 +39,8 @@ class ChainedBloc<State> extends Bloc<GlobalEvent, State> {
 }
 
 class BlocChain {
+  BlocChain._();
+
+  /// Add a [GlobalEvent] that will be passed on to all the [ChainedBloc]s.
   static void add(GlobalEvent event) => ChainedBloc._emitGlobal(event);
 }

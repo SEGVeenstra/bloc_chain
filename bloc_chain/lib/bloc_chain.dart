@@ -1,8 +1,7 @@
-/// Support for doing something awesome.
+/// Global event dispatcher for `bloc`.
 ///
-/// More dartdocs go here.
+/// Allows for a global distribution of events to all `bloc`s.
 library bloc_chain;
 
-export 'src/bloc_chain_base.dart';
-
-// TODO: Export any libraries intended for clients of this package.
+export 'src/chained_bloc.dart';
+export 'src/global_event.dart';

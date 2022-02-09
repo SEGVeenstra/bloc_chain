@@ -16,11 +16,20 @@ class RandomNumberBloc extends ChainedBloc<int> {
 }
 
 class RandomColorBloc extends ChainedBloc<String> {
-  static const _colors = ['red', 'blue', 'orange', 'yellow', 'purple', 'pink', 'green'];
+  static const _colors = [
+    'red',
+    'blue',
+    'orange',
+    'yellow',
+    'purple',
+    'pink',
+    'green'
+  ];
 
   RandomColorBloc() : super(_colors[0]) {
     // And for this one as well.
-    on<RandomEvent>((event, emit) => emit(_colors[Random().nextInt(_colors.length - 1)]));
+    on<RandomEvent>(
+        (event, emit) => emit(_colors[Random().nextInt(_colors.length - 1)]));
   }
 }
 
