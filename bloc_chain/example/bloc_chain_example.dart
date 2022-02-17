@@ -43,9 +43,9 @@ void main() {
   randomColorBloc.stream.listen((state) => print(state));
 
   // Finally we add the event a few times.
-  BlocChain.add(RandomEvent());
-  BlocChain.add(RandomEvent());
-  BlocChain.add(RandomEvent());
-  BlocChain.add(RandomEvent());
-  BlocChain.add(RandomEvent());
+  BlocChain.instance.add(RandomEvent());
+  BlocChain.instance.add(RandomEvent());
+  BlocChain.instance.add(RandomEvent());
+  BlocChain.instance.add(RandomEvent());
+  BlocChain.instance.add(RandomEvent());
 }
