@@ -1,1 +1,3 @@
-abstract class GlobalEvent {}
+abstract class GlobalEvent {
+  const GlobalEvent();
+}
