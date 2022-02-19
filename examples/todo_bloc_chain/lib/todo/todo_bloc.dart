@@ -11,10 +11,12 @@ class TodoBloc extends ChainedBloc<List<Todo>> {
   TodoBloc(this._todoDatabase) : super(<Todo>[]) {
     on<CreateTodo>(_onCreateTodo);
     on<RemoveTodo>(_onRemoveTodo);
-    on<TodoUpdate>(_onBlocCreated);
+    on<TodoUpdate>(_onTodoUpdated);
+    on<CheckTodo>(_onCheckTodo);
+    on<UncheckTodo>(_onUncheckTodo);
   }
 
-  void _onCreateTodo(CreateTodo event, Emitter<List<Todo>> emitter) =>
+  void _onCreateTodo(CreateTodo event, Emitter<List<Todo>> emit) =>
       _todoDatabase.addTodo(
         Todo.create(
           title: event.title,
@@ -22,11 +24,29 @@ class TodoBloc extends ChainedBloc<List<Todo>> {
         ),
       );
 
-  void _onRemoveTodo(RemoveTodo event, Emitter<List<Todo>> emitter) =>
+  void _onRemoveTodo(RemoveTodo event, Emitter<List<Todo>> emit) =>
       _todoDatabase.removeTodo(event.id);
 
-  void _onBlocCreated(TodoUpdate event, Emitter<List<Todo>> emit) {
+  void _onTodoUpdated(TodoUpdate event, Emitter<List<Todo>> emit) {
     final todos = _todoDatabase.getTodos();
     emit.call(todos);
+  }
+
+  void _onCheckTodo(CheckTodo event, Emitter<List<Todo>> emit) {
+    final todo = Todo(
+      id: event.todo.id,
+      title: event.todo.title,
+      isDone: true,
+    );
+    _todoDatabase.updateTodo(todo);
+  }
+
+  void _onUncheckTodo(UncheckTodo event, Emitter<List<Todo>> emit) {
+    final todo = Todo(
+      id: event.todo.id,
+      title: event.todo.title,
+      isDone: false,
+    );
+    _todoDatabase.updateTodo(todo);
   }
 }

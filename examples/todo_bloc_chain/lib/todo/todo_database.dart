@@ -18,4 +18,12 @@ class TodoDatabase {
     _data.remove(todo);
     BlocChain.instance.add(TodoRemoved(todo: todo));
   }
+
+  void updateTodo(Todo todo) {
+    final oldTodo = _data.firstWhere((t) => t.id == todo.id);
+    final index = _data.indexOf(oldTodo);
+    _data.remove(oldTodo);
+    _data.insert(index, todo);
+    BlocChain.instance.add(TodoUpdated(todo: todo));
+  }
 }

@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData.light(),
-        home: const TodoPage(),
+        home: TodoPage(),
       ),
     );
   }

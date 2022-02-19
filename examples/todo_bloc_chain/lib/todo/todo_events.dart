@@ -19,6 +19,18 @@ class RemoveTodo extends TodoEvent {
   const RemoveTodo({required this.id});
 }
 
+class CheckTodo extends TodoEvent {
+  final Todo todo;
+
+  const CheckTodo({required this.todo});
+}
+
+class UncheckTodo extends TodoEvent {
+  final Todo todo;
+
+  const UncheckTodo({required this.todo});
+}
+
 // Database events
 abstract class TodoUpdate extends TodoEvent {
   Todo get todo;
@@ -38,4 +50,11 @@ class TodoRemoved extends TodoUpdate {
   final Todo todo;
 
   const TodoRemoved({required this.todo});
+}
+
+class TodoUpdated extends TodoUpdate {
+  @override
+  final Todo todo;
+
+  const TodoUpdated({required this.todo});
 }

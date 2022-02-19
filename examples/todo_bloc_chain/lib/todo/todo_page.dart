@@ -7,7 +7,9 @@ import 'todo.dart';
 import 'todo_bloc.dart';
 
 class TodoPage extends StatelessWidget {
-  const TodoPage({Key? key}) : super(key: key);
+  final _textEditController = TextEditingController();
+
+  TodoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,13 +17,32 @@ class TodoPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Todo\'s'),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () =>
-            BlocChain.instance.add(const CreateTodo(title: 'test2')),
-      ),
-      body: BlocBuilder<TodoBloc, List<Todo>>(
-        builder: (context, state) => TodoList(todos: state),
+      body: Column(
+        children: [
+          Expanded(
+            child: BlocBuilder<TodoBloc, List<Todo>>(
+              builder: (context, state) => TodoList(todos: state),
+            ),
+          ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _textEditController,
+                decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.send),
+                      onPressed: () {
+                        BlocChain.instance
+                            .add(CreateTodo(title: _textEditController.text));
+                        _textEditController.clear();
+                      },
+                    ),
+                    border: const OutlineInputBorder()),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -45,9 +66,16 @@ class TodoList extends StatelessWidget {
             key: ValueKey(todo.id),
             onDismissed: (_) => BlocChain.instance.add(RemoveTodo(id: todo.id)),
             child: SwitchListTile(
+              key: ValueKey(todo.id),
               value: todo.isDone,
               title: Text(todo.title),
-              onChanged: (_) {},
+              onChanged: (value) {
+                if (value) {
+                  BlocChain.instance.add(CheckTodo(todo: todo));
+                } else {
+                  BlocChain.instance.add(UncheckTodo(todo: todo));
+                }
+              },
             ),
           );
         },
